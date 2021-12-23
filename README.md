@@ -1,19 +1,18 @@
-# terraform-aws-nat-instance [![CircleCI](https://circleci.com/gh/int128/terraform-aws-nat-instance.svg?style=shield)](https://circleci.com/gh/int128/terraform-aws-nat-instance)
+# terraform-aws-nat-instance 
 
 This is a Terraform module which provisions a NAT instance.
 
 Features:
 
 - Providing NAT for private subnet(s)
-- Auto healing using an auto scaling group
-- Saving cost using a spot instance (from $1/month)
-- Fixed source IP address by reattaching ENI
 - Supporting Systems Manager Session Manager
 - Compatible with workspaces
 
-Terraform 0.12 or later is required.
+Terraform 1.0.11 or later is required.
 
 **Warning**: Generally you should use a NAT gateway. This module provides a very low cost solution for testing purpose.
+
+**Note**: This module provides a single NAT instance without HA support. If you need the NAT instance to be auto re-created on going down, you can use the module available at https://registry.terraform.io/modules/int128/nat-instance/aws/latest or its variant with fix available at https://github.com/nelg/terraform-aws-nat-instance
 
 
 ## Getting Started
@@ -60,11 +59,10 @@ See also the [example](example/).
 
 This module provisions the following resources:
 
-- Auto Scaling Group with mixed instances policy
-- Launch Template
+- NAT instance with Single network interface
 - Elastic Network Interface
 - Security Group
-- IAM Role for SSM and ENI attachment
+- IAM Role for SSM 
 - VPC Route (optional)
 
 You need to attach your elastic IP to the ENI.
@@ -76,11 +74,9 @@ Take a look at the diagram:
 By default the latest Amazon Linux 2 image is used.
 You can set `image_id` for a custom image.
 
-The instance will execute [`runonce.sh`](runonce.sh) and [`snat.sh`](snat.sh) to enable NAT as follows:
+The instance will execute [`snat.sh`](snat.sh) to enable NAT as follows:
 
-1. Attach the ENI to `eth1`.
 1. Set the kernel parameters for IP forwarding and masquerade.
-1. Switch the default route to `eth1`.
 
 
 ## Configuration
