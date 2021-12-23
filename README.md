@@ -32,7 +32,7 @@ module "vpc" {
 }
 
 module "nat" {
-  source = "int128/nat-instance/aws"
+  source = "git::https://github.com/sbandekar/terraform-aws-nat-instance.git"
 
   name                        = "main"
   vpc_id                      = module.vpc.vpc_id
