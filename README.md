@@ -42,7 +42,6 @@ module "nat" {
 }
 
 resource "aws_eip" "nat" {
-  network_interface = module.nat.eni_id
   tags = {
     "Name" = "nat-instance-main"
   }
