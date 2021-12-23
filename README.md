@@ -39,6 +39,7 @@ module "nat" {
   public_subnet               = module.vpc.public_subnets[0]
   private_subnets_cidr_blocks = module.vpc.private_subnets_cidr_blocks
   private_route_table_ids     = module.vpc.private_route_table_ids
+  eip                         = aws_eip.nat.id
 }
 
 resource "aws_eip" "nat" {
@@ -173,6 +174,7 @@ No requirements.
 | user\_data\_runcmd | Additional runcmd section of cloud-init | `list` | `[]` | no |
 | user\_data\_write\_files | Additional write\_files section of cloud-init | `list` | `[]` | no |
 | vpc\_id | ID of the VPC | `string` | n/a | yes |
+| eip | ID of the EIP for NAT instance | `string` | n/a | yes |
 
 ## Outputs
 
@@ -182,4 +184,5 @@ No requirements.
 | eni\_private\_ip | Private IP of the ENI for the NAT instance |
 | iam\_role\_name | Name of the IAM role for the NAT instance |
 | sg\_id | ID of the security group of the NAT instance |
+| iam\_ssm\_profile\_name | Name of the IAM role for SSM (Can be re-used for other instances)|
 
